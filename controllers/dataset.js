@@ -4,7 +4,6 @@ require("dotenv").config();
 const client = sanityClient({
   projectId: "zegc2wrv",
   dataset: "production",
-  token: process.env.REACT_APP_CMS_TOKEN,
 });
 
 Router.get("/", async (req, res) => {
