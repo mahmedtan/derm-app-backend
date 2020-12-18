@@ -4,6 +4,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const config = require("./utils/config");
 const userRouter = require("./controllers/users");
+const mailRouter = require("./controllers/mail");
+const datasetRouter = require("./controllers/dataset");
 const loginRouter = require("./controllers/login");
 const middleware = require("./utils/middleware");
 const morgan = require("morgan");
@@ -31,6 +33,8 @@ app.use(middleware.tokenExtractor);
 app.use(morgan("tiny"));
 app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
+app.use("/api/mail", mailRouter);
+app.use("/api/dataset", datasetRouter);
 
 app.use(middleware.errorHandler);
 module.exports = app;
