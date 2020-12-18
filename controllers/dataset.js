@@ -12,3 +12,5 @@ Router.get("/", async (req, res) => {
   );
   res.json(response);
 });
+
+module.exports = Router;
