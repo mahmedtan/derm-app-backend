@@ -6,11 +6,53 @@ const client = sanityClient({
   dataset: "production",
 });
 
-Router.get("/", async (req, res) => {
+Router.get("/forms", async (req, res) => {
   const response = await client.fetch(
-    '*[_type=="form"]{firstName, lastName, emailAddress, phoneNumber, bookedFor, "consultations":consultations[]->{title, time ,price}}'
+    '*[_type=="form"]{firstName, lastName, emailAddress, phoneNumber, bookedFor,"procedures":procedures[]->{title, time ,price}, "consultations":consultations[]->{title, time ,price}}'
   );
-  res.json(response);
+  res.json(
+    response.map(
+      ({
+        firstName,
+        lastName,
+        emailAddress,
+        phoneNumber,
+        bookedFor,
+        procedures,
+        consultations,
+      }) => ({
+        "First Name": firstName,
+        "Last Name": lastName,
+        "Email Address": emailAddress,
+        "Booked For": new Date(bookedFor).toLocaleString("en-US"),
+        "Phone Number": phoneNumber,
+        Procedure: {
+          Title: procedures.title,
+          Time: procedures.time + "min",
+          Price: procedures.price + "USD",
+        },
+        Consultation: {
+          Title: consultations.title,
+          Time: consultations.time + "min",
+          Price: consultations.price + "USD",
+        },
+      })
+    )
+  );
+});
+Router.get("/patients", async (req, res) => {
+  const response = await client.fetch(
+    '*[_type=="patient"]{fullName, patientId, phoneNumber, emailAddress}'
+  );
+
+  res.json(
+    response.map(({ fullName, emailAddress, patientId, phoneNumber }) => ({
+      "Full Name": fullName,
+      "Email Address": emailAddress,
+      "Patient ID": patientId,
+      "Phone Number": phoneNumber,
+    }))
+  );
 });
 
 module.exports = Router;
