@@ -18,24 +18,14 @@ Router.get("/forms", async (req, res) => {
         emailAddress,
         phoneNumber,
         bookedFor,
-        procedures,
-        consultations,
+        ...rest
       }) => ({
         "First Name": firstName,
         "Last Name": lastName,
         "Email Address": emailAddress,
         "Booked For": new Date(bookedFor).toLocaleString("en-US"),
         "Phone Number": phoneNumber,
-        Procedure: {
-          Title: procedures.title,
-          Time: procedures.time + "min",
-          Price: procedures.price + "USD",
-        },
-        Consultation: {
-          Title: consultations.title,
-          Time: consultations.time + "min",
-          Price: consultations.price + "USD",
-        },
+        ...rest,
       })
     )
   );
