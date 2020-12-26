@@ -8,7 +8,7 @@ const client = sanityClient({
 
 Router.get("/forms", async (req, res) => {
   const response = await client.fetch(
-    '*[_type=="form"]{firstName, lastName, emailAddress, phoneNumber, bookedFor,"procedures":procedures[]->{title, time ,price}, "consultations":consultations[]->{title, time ,price}}'
+    '*[_type=="form"]{firstName, lastName, emailAddress, phoneNumber, bookedFor,"procedures":procedures[]->{title, time ,price}, "consultations":consultations[]->{title, time ,price}, appointmentId}'
   );
   res.json(
     response.map(
@@ -18,6 +18,7 @@ Router.get("/forms", async (req, res) => {
         emailAddress,
         phoneNumber,
         bookedFor,
+        appointmentId,
         ...rest
       }) => ({
         "First Name": firstName,
@@ -25,6 +26,7 @@ Router.get("/forms", async (req, res) => {
         "Email Address": emailAddress,
         "Booked For": new Date(bookedFor).toLocaleString("en-US"),
         "Phone Number": phoneNumber,
+        "Appointment ID": appointmentId,
         ...rest,
       })
     )
