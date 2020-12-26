@@ -21,12 +21,12 @@ Router.get("/forms", async (req, res) => {
         appointmentId,
         ...rest
       }) => ({
+        "Appointment ID": appointmentId,
         "First Name": firstName,
         "Last Name": lastName,
         "Email Address": emailAddress,
         "Booked For": new Date(bookedFor).toLocaleString("en-US"),
         "Phone Number": phoneNumber,
-        "Appointment ID": appointmentId,
         ...rest,
       })
     )
@@ -39,9 +39,10 @@ Router.get("/patients", async (req, res) => {
 
   res.json(
     response.map(({ fullName, emailAddress, patientId, phoneNumber }) => ({
+      "Patient ID": patientId,
       "Full Name": fullName,
       "Email Address": emailAddress,
-      "Patient ID": patientId,
+
       "Phone Number": phoneNumber,
     }))
   );
